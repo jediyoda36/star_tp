@@ -18,5 +18,4 @@ public:
     }
 };
 
-
 #endif // LIGHT_JOIN_THREADS_H
