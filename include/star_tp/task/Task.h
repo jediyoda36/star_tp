@@ -45,16 +45,13 @@ public:
         inDep.erase(task);
     }
     void operator()(){
-        std::cout << "enter operator()\n";
         std::future<T> fut = task.get_future();
-        std::cout << "future gotten\n";
         task();
         try {
             fut.get();
         } catch (...) {
             throw;
         }
-        std::cout << "done\n";
         done = true;
         for (Task<T>* t : outDep)
             t->removeDependency(this);
