@@ -27,7 +27,7 @@ static void thread_func() {
     t();
 }
 
-int testPackagedTask() {
+int main() {
     std::thread t1(thread_func);
     std::packaged_task<int()> t(std::bind(factorial3, 6));
     std::future<int> fu = t.get_future();

@@ -14,7 +14,7 @@ static void f_lq234oi8() {
     printf("thread_id: %ld\n", std::this_thread::get_id());
 }
 
-int testSimpleThreadPool() {
+int main() {
     std::vector<std::thread> tv;
     for (int i = 0; i < 10; ++i) {
         tv.push_back(std::thread(do_work_vq3453q, i));
@@ -25,12 +25,14 @@ int testSimpleThreadPool() {
         std::cout << *tsq_test_simple_thread_pool.try_pop() << std::endl;
     }
 
-    SimpleThreadPool<void> simpleThreadPool;
+    SimpleThreadPool<void> simpleThreadPool(10);
     std::cout << "master thread id:" << std::this_thread::get_id() << std::endl;
     sleep(1);
     for (int i = 0; i < 100; ++i) {
-        simpleThreadPool.submit(f_lq234oi8);
+        simpleThreadPool.submit(new Task<void>(std::packaged_task<void()>(std::bind(f_lq234oi8))));
     }
+    Scheduler<void>::getInstance()->schedule();
+    simpleThreadPool.wait_and_stop();
 
     return 0;
 }

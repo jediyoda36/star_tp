@@ -17,5 +17,8 @@ target_link_libraries(testFuturePromiseAsync pthread)
 add_executable(testPackagedTask TestPackagedTask.cpp)
 target_link_libraries(testPackagedTask pthread)
 
-add_executable(testSimpleThreadPool TestSimpleThreadPool.cpp)
-target_link_libraries(testSimpleThreadPool pthread)
+# add_executable(testSimpleThreadPool TestSimpleThreadPool.cpp)
+# target_link_libraries(testSimpleThreadPool pthread)
+
+add_executable(testTask TestTask.cpp)
+target_link_libraries(testTask pthread)
