@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include <mutex>
 #include <atomic>
+#include <iostream>
 
 /*
  * T is return type of task, using bind to add parameters
@@ -17,11 +18,11 @@ template<class T = void>
 class Task {
     std::packaged_task<T()> task;
     // ThreadSafeQueue<shared_ptr<Task>> inDep, outDep;
-    std::unordered_set<Task*> inDep, outDep;
+    std::unordered_set<Task<T>*> inDep, outDep;
     std::mutex mutInDep, mutOutDep;
     std::atomic_bool done;
 public:
-    explicit Task(std::packaged_task<T()> _task) : task(std::move(_task)), done(false) {}
+    explicit Task(std::packaged_task<T()> _task, bool _done = false) : task(std::move(_task)), done(_done) {}
     ~ Task() {}
     bool isReady() {
         return inDep.empty();
@@ -44,10 +45,18 @@ public:
         inDep.erase(task);
     }
     void operator()(){
-        std::future<T> fut = task();
-        fut.get();
+        std::cout << "enter operator()\n";
+        std::future<T> fut = task.get_future();
+        std::cout << "future gotten\n";
+        task();
+        try {
+            fut.get();
+        } catch (...) {
+            throw;
+        }
+        std::cout << "done\n";
         done = true;
-        for (Task* t : outDep)
+        for (Task<T>* t : outDep)
             t->removeDependency(this);
     }
 };
