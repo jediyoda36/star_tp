@@ -1,11 +1,13 @@
 #ifndef LIGHT_TASK_H
 #define LIGHT_TASK_H
 
-#include <future>
+#include <functional>
 #include <unordered_set>
 #include <mutex>
 #include <atomic>
 #include <iostream>
+#include <cstdio>
+#include <memory>
 
 /*
  * T is return type of task, using bind to add parameters
@@ -16,45 +18,51 @@
  */
 template<class T = void>
 class Task {
-    std::packaged_task<T()> task;
-    // ThreadSafeQueue<shared_ptr<Task>> inDep, outDep;
+    std::function<T()> task;
+    // std::unordered_set<std::shared_ptr<Task<T>>> inDep, outDep;
     std::unordered_set<Task<T>*> inDep, outDep;
-    std::mutex mutInDep, mutOutDep;
-    std::atomic_bool done;
+    bool done;
+    std::mutex mutInDep, mutOutDep, mutDone;
 public:
-    explicit Task(std::packaged_task<T()> _task, bool _done = false) : task(std::move(_task)), done(_done) {}
+    Task(std::function<T()> _task) : task(std::move(_task)), done(false) {}
     ~ Task() {}
     bool isReady() {
+        std::lock_guard<std::mutex> lk(mutInDep);
         return inDep.empty();
     }
     bool isDone() {
+        std::lock_guard<std::mutex> lk(mutDone);
         return done;
     }
-    Task& addInDep(Task* task) {
+    Task& addInDep(Task<T>* task) {
         std::lock_guard<std::mutex> lk(mutInDep);
         inDep.insert(task);
         return *this;
     }
-    Task& addOutDep(Task* task) {
+    Task& addOutDep(Task<T>* task) {
         std::lock_guard<std::mutex> lk(mutOutDep);
         outDep.insert(task);
+        task->addInDep(this);
         return *this;
     }
-    void removeDependency(Task* task) {
+    void removeInDep(Task<T>* task) {
         std::lock_guard<std::mutex> lk(mutInDep);
         inDep.erase(task);
     }
     void operator()(){
-        std::future<T> fut = task.get_future();
-        task();
+        if (!task)
+            std::cerr << "function is not callable\n";
         try {
-            fut.get();
+            task();
         } catch (...) {
             throw;
         }
         done = true;
-        for (Task<T>* t : outDep)
-            t->removeDependency(this);
+        for (Task<T>* t: outDep)
+            t->removeInDep(this);
+    }
+    void taskInfo() {
+        printf("address: %p, done: %d, inDep.size(): %d, outDep.size(): %d\n", this, done, inDep.size(), outDep.size());
     }
 };
 
