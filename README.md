@@ -1,11 +1,17 @@
 # star_tp
-thread pool version of star
+thread pool version of star.
 
 ## ThreadSafeQueue
-thread safe queue implemented using std::mutex and std::condition_variable.
+ThreadSafeQueue is implemented using std::mutex and std::condition_variable.
 
 ## SimpleThreadPool
-simple thread pool implementation.
+Simple thread pool implementation.
 
 ## JoinThreads
-thread joiner, using destructor safely release std::thread objects.
+Thread joiner, using destructor safely release std::thread objects.(RAII)
+
+## Task
+Tasks that star_tp supports, wrapping std::packaged_task<T>. currently only support Task<void>.
+
+## Scheduler
+Scheduler schedules the tasks in readyTaskQueue and notReadyTaskQueue. When a task is ready Scheduler moves it from notReadyTaskQueue to readyTaskQueue, from where threads in thread_pool get tasks.
