@@ -1,17 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 
-project(chapter09)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "-lpthread")
+aux_source_directory(. SOURCE_FILES)
 
-set(SOURCE_FILES
-    main.cpp
-    JoinThreads.h
-    ThreadSafeQueue.h
-    SimpleThreadPool.h
-    )
-
-add_executable(chapter09 ${SOURCE_FILES})
-target_link_libraries(chapter09 -lpthread)
-
+# install(DIRECTORY . DESTINATION ${PROJECT_SOURCE_DIR}/include FILES_MATCHING PATTERN "*.h")

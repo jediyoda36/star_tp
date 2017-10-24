@@ -13,10 +13,15 @@ void testTask02(int a, int b) {
 }
 
 int main() {
-    Task<> t1{std::packaged_task<void()>{testTask01}};
+    Task<> t1{std::function<void()>{testTask01}};
     t1();
-    Task<> t2{std::packaged_task<void()>{std::bind(testTask02, 1, 2)}};
+    Task<> t2{std::function<void()>{std::bind(testTask02, 1, 2)}};
     t2();
+    // the following statements are failed, because field mut* in Task has inaccessible copy constructor
+    // Task<> t3(t2);
+    // t3();
+    // Task<> t4 = t2;
+    // t4();
     return 0;
 }
 

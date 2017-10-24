@@ -8,7 +8,7 @@
 #include "star_tp/thread/JoinThreads.h"
 #include "star_tp/scheduler/Scheduler.h"
 
-template< class T>
+template< class T = void>
 class SimpleThreadPool {
   private:
     std::atomic_bool done;
@@ -19,9 +19,10 @@ class SimpleThreadPool {
     void workerThread() {
         while (!done) {
             // std::function<void()> task;
-            Task<T> task;
-            if (Scheduler<T>::getInstance().getReadyTask(task)) {
-                task();
+            std::shared_ptr<Task<T>*> task = Scheduler<T>::getInstance()->getReadyTask();
+            if (task) {
+                Task<T>* tp = *task;
+                (*tp)();
             } else {
                 std::this_thread::yield();
             }
@@ -49,11 +50,13 @@ class SimpleThreadPool {
     //}
 
     void submit(Task<T>& t) {
-        Scheduler<T>::getInstance().addTask(std::move(t));
+        // printf("SimpleThreadPool::submit +\n");
+        Scheduler<T>::getInstance()->addTask(&t);
+        // printf("SimpleThreadPool::submit -\n");
     }
 
     void wait_and_stop() {
-
+        Scheduler<T>::getInstance()->schedule();
     }
 };
 

@@ -18,14 +18,18 @@
  */
 template<class T = void>
 class Task {
-    std::function<T()> task;
+    std::function<T()> func;
     // std::unordered_set<std::shared_ptr<Task<T>>> inDep, outDep;
     std::unordered_set<Task<T>*> inDep, outDep;
     bool done;
     std::mutex mutInDep, mutOutDep, mutDone;
 public:
-    Task(std::function<T()> _task) : task(std::move(_task)), done(false) {}
+    Task():done(false) {}
+    Task(std::function<T()> _func) : func(std::move(_func)), done(false) {}
     ~ Task() {}
+    void setFunction(std::function<T()> _func) {
+        func = std::move(_func);
+    }
     bool isReady() {
         std::lock_guard<std::mutex> lk(mutInDep);
         return inDep.empty();
@@ -50,10 +54,10 @@ public:
         inDep.erase(task);
     }
     void operator()(){
-        if (!task)
+        if (!func)
             std::cerr << "function is not callable\n";
         try {
-            task();
+            func();
         } catch (...) {
             throw;
         }

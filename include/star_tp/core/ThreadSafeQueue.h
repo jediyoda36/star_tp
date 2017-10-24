@@ -7,7 +7,7 @@
 #include <utility>
 #include <memory>
 
-template <class T> 
+template <class T>
 class ThreadSafeQueue {
   private:
     mutable std::mutex mut;
@@ -58,6 +58,11 @@ class ThreadSafeQueue {
     bool empty() const {
         std::lock_guard<std::mutex> lk(mut);
         return dataQueue.empty();
+    }
+
+    size_t size() const {
+        std::lock_guard<std::mutex> lk(mut);
+        return dataQueue.size();
     }
 };
 #endif // LIGHT_THREAD_SAFE_QUEUE_H
