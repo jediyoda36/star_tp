@@ -15,6 +15,7 @@ static void f_lq234oi8() {
 }
 
 static void taskDemo(int taskId) {
+    sleep(1);
     printf("task %d\n", taskId);
 }
 
