@@ -1,17 +1,30 @@
 # star_tp
 thread pool version of star.
 
-## ThreadSafeQueue
+## Usage
+Currently all modules are implemented as header files under include directory, if you want to use the modules, just add the following line in your **CMakeLists.txt** file:
+
+```cmake
+include_directories(/{path-to-star_tp}/include)
+```
+or the following line in your **Makefile**:
+```make
+CFLAGS += -I/{path-to-star_tp}/include
+```
+
+## Modules
+
+### ThreadSafeQueue
 ThreadSafeQueue is implemented using std::mutex and std::condition_variable.
 
-## SimpleThreadPool
+### SimpleThreadPool
 Simple thread pool implementation.
 
-## JoinThreads
+### JoinThreads
 Thread joiner, using destructor safely release std::thread objects.(RAII)
 
-## Task
+### Task
 Tasks that star_tp supports, wrapping std::packaged_task<T>. currently only support Task<void>.
 
-## Scheduler
+### Scheduler
 Scheduler schedules the tasks in readyTaskQueue and notReadyTaskQueue. When a task is ready Scheduler moves it from notReadyTaskQueue to readyTaskQueue, from where threads in thread_pool get tasks.
