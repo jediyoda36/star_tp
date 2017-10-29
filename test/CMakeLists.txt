@@ -26,3 +26,6 @@ target_link_libraries(testTask pthread)
 add_executable(testFunctionAndBind TestFunctionAndBind.cpp)
 
 add_executable(testMove TestMove.cpp)
+
+add_executable(testStartp TestStartp.cpp)
+
