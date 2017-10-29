@@ -129,42 +129,49 @@ void meancohCore() {
 // in muskTasks[0]
 void muskCore() {
     printf("musk+++\n");
+    sleep(1);
     printf("musk---\n");
 }
 
 // in pscTasks[0]
 void pscCore() {
     printf("psc+++\n");
+    sleep(1);
     printf("psc---\n");
 }
 
 // in delaunayTasks[0]
 void delaunayCore() {
     printf("delaunay+++\n");
+    sleep(1);
     printf("delaunay---\n");
 }
 
 // in integrationTasks[00]
 void integrationCore() {
     printf("integration+++\n");
+    sleep(1);
     printf("integration---\n");
 }
 
 // in residueTasks[0]
 void residueCore() {
     printf("residue+++\n");
+    sleep(1);
     printf("residue---\n");
 }
 
 // in residueunwTasks[0]
 void residueunwCore() {
     printf("residueunw+++\n");
+    sleep(1);
     printf("residueunw---\n");
 }
 
 // in uonlinearTasks[0]
 void uonlinearCore() {
     printf("uonlinear+++\n");
+    sleep(1);
     printf("uonlinear---\n");
 }
 
@@ -348,7 +355,7 @@ int testStartp() {
      * OUT -> {uonlinear}
      */
     Task<> *residueunwTasks = new Task<>();
-    new (residueunwTasks) Task<>(std::function<void()>(residueCore));
+    new (residueunwTasks) Task<>(std::function<void()>(residueunwCore));
 
     /*
      * uonlinear
