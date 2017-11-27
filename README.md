@@ -28,3 +28,13 @@ Tasks that star_tp supports, wrapping std::packaged_task<T>. currently only supp
 
 ### Scheduler
 Scheduler schedules the tasks in readyTaskQueue and notReadyTaskQueue. When a task is ready Scheduler moves it from notReadyTaskQueue to readyTaskQueue, from where threads in thread_pool get tasks.
+
+## TODO
+
+### performance
+
+1. thread safe queue, using condition variable instead of while loop when waiting for tasks.
+
+### facilities
+
+### doc
