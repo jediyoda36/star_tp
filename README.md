@@ -31,9 +31,14 @@ Scheduler schedules the tasks in readyTaskQueue and notReadyTaskQueue. When a ta
 
 ## TODO
 
+### refactor
+
+* [ ] using boost for thread pool
+
 ### performance
 
-1. thread safe queue, using condition variable instead of while loop when waiting for tasks.
+<2017.11.29>
+* [x] thread safe queue, using condition variable instead of while loop when waiting for tasks.
 
 ### facilities
 
