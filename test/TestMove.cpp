@@ -8,10 +8,10 @@
 #include <vector>
 #include <cstdio>
 #include <unistd.h>
-#include <star_tp/core/ThreadSafeQueue.h>
+#include <CThreadSafeQueue.h>
 
-ThreadSafeQueue<int> que;
-ThreadSafeQueue<int*> quep;
+CThreadSafeQueue<int> que;
+CThreadSafeQueue<int*> quep;
 
 void thread_get_int() {
     std::shared_ptr<int> sp = que.wait_and_pop();

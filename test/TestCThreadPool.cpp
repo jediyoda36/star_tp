@@ -1,5 +1,6 @@
 #include "CThreadPool.h"
 #include "CTask.h"
+#include "CScheduler.h"
 #include <boost/thread/thread.hpp>
 #include <iostream>
 #include <boost/timer.hpp>
@@ -11,7 +12,7 @@ static void taskDemo(int taskId) {
 }
 
 
-int main() {
+int main1() {
   // Create a thread pool of 4 worker threads.
   CThreadPool pool(4);
 
@@ -37,4 +38,43 @@ int main() {
   */
 
   return 0;
+}
+
+int main() {
+  // Create a thread pool of 4 worker threads.
+  CThreadPool pool(6);
+
+  CScheduler * schdp = CScheduler::getInstance();
+
+    // using SimpleThreadPool, with dependencies
+    // std::vector<CTask> taskVector(16, CTask());
+    // using placement new at tp
+    char * p = new char[sizeof(CTask)*16];
+    CTask* taskVector = (CTask*)p;
+    for (int i = 0; i < 16; ++i) {
+        new (taskVector+i)CTask(std::function<void()>(std::bind(taskDemo, i)));
+        // taskVector.push_back(std::move(t));
+        // taskVector[i].setFunction(std::function<void()>(std::bind(taskDemo, i)));
+    }
+
+    taskVector[1].addOutDep(&taskVector[3]);
+    taskVector[2].addOutDep(&taskVector[3]);
+    taskVector[3].addOutDep(&taskVector[4]).addOutDep(&taskVector[7]);
+    taskVector[5].addOutDep(&taskVector[7]);
+    taskVector[6].addOutDep(&taskVector[7]);
+    taskVector[8].addOutDep(&taskVector[11]);
+    taskVector[9].addOutDep(&taskVector[11]);
+    taskVector[10].addOutDep(&taskVector[11]);
+    taskVector[7].addOutDep(&taskVector[12]);
+    taskVector[11].addOutDep(&taskVector[12]);
+    taskVector[12].addOutDep(&taskVector[13]);
+    taskVector[13].addOutDep(&taskVector[14]);
+    taskVector[14].addOutDep(&taskVector[15]);
+
+    for (int i = 0; i < 16; ++i) {
+        schdp->addTask(&taskVector[i]);
+    }
+    schdp->schedule(pool);
+
+    return 0;
 }
