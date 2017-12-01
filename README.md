@@ -36,7 +36,7 @@ Scheduler schedules the tasks in readyTaskQueue and notReadyTaskQueue. When a ta
 <2017.12.01>
 * [x] using boost for thread pool.
 
-* [ ] redesign the scheduler to update dependencies between CTask objects.
+* [ ] redesign the scheduler to manage dependencies between CTask objects.
 
 ### performance
 
