@@ -33,8 +33,7 @@ Scheduler schedules the tasks in readyTaskQueue and notReadyTaskQueue. When a ta
 
 ### refactor
 
-* [x] using boost for thread pool.
-* [ ] redesign the scheduler to update dependencies between CTask objects.
+* [ ] using boost for thread pool
 
 ### performance
 
