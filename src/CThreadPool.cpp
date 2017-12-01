@@ -14,7 +14,11 @@ CThreadPool::~CThreadPool() {
 }
 
 void CThreadPool::submit(CTask* task) {
-    mIoService.post([task]{(*task)();});
+    if (task)
+        mIoService.post([task]{(*task)();});
+    else {
+        printf("submited CTask* is null\n");
+    }
 }
 
 void CThreadPool::submit(boost::function<void()> func) {
