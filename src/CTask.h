@@ -1,5 +1,5 @@
-#ifndef STAR_TASK_H
-#define STAR_TASK_H
+#ifndef STAR_CTASK_H
+#define STAR_CTASK_H
 
 #include <functional>
 #include <unordered_set>
@@ -29,4 +29,4 @@ public:
     void taskInfo();
 };
 
-#endif // STAR_TASK_H
+#endif // STAR_CTASK_H
