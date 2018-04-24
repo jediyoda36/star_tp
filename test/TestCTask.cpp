@@ -1,7 +1,7 @@
 #ifndef LIGHT_TEST_CTASk_H
 #define LIGHT_TEST_CTASk_H
 
-#include "CTask.h"
+#include "star.h"
 #include <iostream>
 
 void testCTask01() {

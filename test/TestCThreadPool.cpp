@@ -1,6 +1,4 @@
-#include "CThreadPool.h"
-#include "CTask.h"
-#include "CScheduler.h"
+#include "star.h"
 #include <boost/thread/thread.hpp>
 #include <iostream>
 #include <boost/timer.hpp>
