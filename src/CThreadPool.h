@@ -10,11 +10,11 @@
 #include "CTask.h"
 
 class CThreadPool {
-private:
+  private:
     boost::thread_group mWorkers;
     boost::asio::io_service mIoService;
     boost::shared_ptr<boost::asio::io_service::work> mWork;
-public:
+  public:
     explicit CThreadPool(size_t);
     ~CThreadPool();
 

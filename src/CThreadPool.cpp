@@ -15,7 +15,7 @@ CThreadPool::~CThreadPool() {
 
 void CThreadPool::submit(CTask* task) {
     if (task)
-        mIoService.post([task]{(*task)();});
+        mIoService.post([task] {(*task)();});
     else {
         printf("submited CTask* is null\n");
     }

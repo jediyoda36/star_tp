@@ -12,19 +12,19 @@
 class CScheduler {
   private:
     CScheduler() {}
-    CScheduler(const CScheduler &) {}
-    CScheduler &operator=(const CScheduler &) {}
+    CScheduler(const CScheduler&) {}
+    CScheduler& operator=(const CScheduler&) {}
     ~CScheduler() {}
-    static CThreadSafeQueue<CTask *> notReadyTaskQueue;
-    static CThreadSafeQueue<CTask *> readyTaskQueue;
-    static CScheduler *m_instance;
+    static CThreadSafeQueue<CTask*> notReadyTaskQueue;
+    static CThreadSafeQueue<CTask*> readyTaskQueue;
+    static CScheduler* m_instance;
     static std::once_flag onceFlag;
     static void init();
     void updateNotReadyTasks();
     std::shared_ptr<CTask*> getReadyTask();
 
   public:
-    static CScheduler *getInstance();
+    static CScheduler* getInstance();
     void addTask(CTask*);
     void schedule(CThreadPool&);
 };

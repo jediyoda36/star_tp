@@ -5,7 +5,7 @@
 #include <functional>
 
 int half(int x) {
-    return x/2;
+    return x / 2;
 }
 
 int main() {

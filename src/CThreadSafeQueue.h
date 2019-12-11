@@ -24,7 +24,7 @@ class CThreadSafeQueue {
         dataQueue.push(data);
         dataCond.notify_one();
     }
-    void wait_and_pop(T &tValue) {
+    void wait_and_pop(T& tValue) {
         std::unique_lock<std::mutex> lk(mut);
         dataCond.wait(lk, [this] { return !dataQueue.empty(); });
         tValue = std::move(*dataQueue.front());
@@ -37,7 +37,7 @@ class CThreadSafeQueue {
         dataQueue.pop();
         return ret;
     }
-    bool try_pop(T &tValue) {
+    bool try_pop(T& tValue) {
         std::lock_guard<std::mutex> lk(mut);
         if (dataQueue.empty())
             return false;

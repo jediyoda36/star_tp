@@ -9,7 +9,7 @@ void testCTask01() {
 }
 
 void testCTask02(int a, int b) {
-    std::cout << a+b << std::endl;
+    std::cout << a + b << std::endl;
 }
 
 int main() {

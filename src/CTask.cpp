@@ -33,7 +33,7 @@ void CTask::removeInDep(CTask* task) {
     mInDep.erase(task);
 }
 
-void CTask::operator()(){
+void CTask::operator()() {
     if (!mFunc)
         std::cerr << "function is not callable\n";
     try {
@@ -42,7 +42,7 @@ void CTask::operator()(){
         throw;
     }
     mDone = true;
-    for (CTask* t: mOutDep)
+    for (CTask* t : mOutDep)
         t->removeInDep(this);
 }
 

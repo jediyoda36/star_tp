@@ -20,7 +20,7 @@ static void thread_func() {
     std::packaged_task<int()> t;
     {
         std::unique_lock<std::mutex> lk(mut_test_packaged_task);
-        cond_packaged_task.wait(lk, []{return !task_q_packaged_task.empty();});
+        cond_packaged_task.wait(lk, [] {return !task_q_packaged_task.empty();});
         t = std::move(task_q_packaged_task.front());
         task_q_packaged_task.pop_front();
     }

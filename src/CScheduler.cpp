@@ -1,16 +1,18 @@
 #include "CScheduler.h"
 
-CThreadSafeQueue<CTask *> CScheduler::notReadyTaskQueue;
+CThreadSafeQueue<CTask*> CScheduler::notReadyTaskQueue;
 
-CThreadSafeQueue<CTask *> CScheduler::readyTaskQueue;
+CThreadSafeQueue<CTask*> CScheduler::readyTaskQueue;
 
-CScheduler *CScheduler::m_instance = nullptr;
+CScheduler* CScheduler::m_instance = nullptr;
 
 std::once_flag CScheduler::onceFlag;
 
-void CScheduler::init() { m_instance = new CScheduler(); }
+void CScheduler::init() {
+    m_instance = new CScheduler();
+}
 
-CScheduler *CScheduler::getInstance() {
+CScheduler* CScheduler::getInstance() {
     std::call_once(onceFlag, init);
     return m_instance;
 }
@@ -26,17 +28,19 @@ void CScheduler::addTask(CTask* task) {
     }
 }
 
-std::shared_ptr<CTask*> CScheduler::getReadyTask() { return readyTaskQueue.try_pop(); }
+std::shared_ptr<CTask*> CScheduler::getReadyTask() {
+    return readyTaskQueue.try_pop();
+}
 
 void CScheduler::schedule(CThreadPool& tpool) {
     while (!notReadyTaskQueue.empty()) {
         while (!readyTaskQueue.empty()) {
-            tpool.submit(*getReadyTask()); 
+            tpool.submit(*getReadyTask());
         }
         updateNotReadyTasks();
     }
     while (!readyTaskQueue.empty()) {
-        tpool.submit(*getReadyTask()); 
+        tpool.submit(*getReadyTask());
     }
 }
 

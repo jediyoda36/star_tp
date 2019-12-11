@@ -11,11 +11,11 @@ static void taskDemo(int taskId) {
 
 int main() {
     CThreadPool pool(6);
-    CScheduler * schdp = CScheduler::getInstance();
-    char * p = new char[sizeof(CTask)*16];
-    CTask* taskVector = (CTask*)p; 
+    CScheduler* schdp = CScheduler::getInstance();
+    char* p = new char[sizeof(CTask) * 16];
+    CTask* taskVector = (CTask*)p;
     for (int i = 0; i < 16; ++i) {
-        new (taskVector+i)CTask(std::function<void()>(std::bind(taskDemo, i)));
+        new (taskVector + i)CTask(std::function<void()>(std::bind(taskDemo, i)));
     }
     taskVector[1].addOutDep(&taskVector[3]);
     taskVector[2].addOutDep(&taskVector[3]);
@@ -39,30 +39,30 @@ int main() {
 }
 
 int main1() {
-  // Create a thread pool of 4 worker threads.
-  CThreadPool pool(4);
+    // Create a thread pool of 4 worker threads.
+    CThreadPool pool(4);
 
-  char * p = new char[sizeof(CTask) * 16];
-  CTask* taskVector = (CTask*)p;
+    char* p = new char[sizeof(CTask) * 16];
+    CTask* taskVector = (CTask*)p;
     for (int i = 0; i < 16; ++i) {
-        new (taskVector+i)CTask(std::function<void()>(std::bind(taskDemo, i)));
+        new (taskVector + i)CTask(std::function<void()>(std::bind(taskDemo, i)));
     }
 
     for (int i = 0; i < 16; i++) {
         pool.submit(&taskVector[i]);
     }
 
-  // Queue a bunch of work items.
-  /*
-  for (int i = 0; i < 16; ++i) {
-    pool.submit([i] {
-      boost::this_thread::sleep(boost::posix_time::seconds(1));
-      taskDemo(i);
-    });
-    //pool.submit([i]{printf("task %d\n", i);});
-  }
-  */
+    // Queue a bunch of work items.
+    /*
+    for (int i = 0; i < 16; ++i) {
+      pool.submit([i] {
+        boost::this_thread::sleep(boost::posix_time::seconds(1));
+        taskDemo(i);
+      });
+      //pool.submit([i]{printf("task %d\n", i);});
+    }
+    */
 
-  return 0;
+    return 0;
 }
 

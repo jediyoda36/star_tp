@@ -10,7 +10,7 @@
 #include <memory>
 
 class CTask {
-private:
+  private:
     std::function<void()> mFunc;
     std::unordered_set<CTask*> mInDep, mOutDep;
     bool mDone;
@@ -19,8 +19,8 @@ private:
     CTask& addInDep(CTask*);
     void removeInDep(CTask*);
 
-public:
-    explicit CTask(std::function<void()>); 
+  public:
+    explicit CTask(std::function<void()>);
     ~CTask();
     bool isReady();
     bool isDone();
