@@ -1,4 +1,5 @@
 #include <future>
+#include <functional>
 #include <deque>
 #include <mutex>
 #include <condition_variable>
